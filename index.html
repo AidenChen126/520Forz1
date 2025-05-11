@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>520 For You</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+    .photo {
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      transform: translate(-50%, -50%);
+      max-width: 40vw;
+      max-height: 90vh;
+      opacity: 0;
+      transition: opacity 2s;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+    .caption {
+      position: absolute;
+      top: 50%;
+      left: 55%;
+      transform: translateY(-50%);
+      font-size: 1.5em;
+      color: #f5f5f5;
+      text-shadow: 0 0 10px #fff;
+      max-width: 30vw;
+      word-wrap: break-word;
+    }
+    #start-button {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 2em;
+      padding: 20px 40px;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 100;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    #start-button:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+    #start-button.hidden {
+      display: none;
+    }
+
+    #intro-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 2em;
+      text-align: center;
+      z-index: 99;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="start-button">▶ 520 For You</div>
+  <div id="intro-text"></div>
+
+  <img id="slideshow" class="photo" src="">
+  <div class="caption" id="caption"></div>
+
+  <audio id="bgm" loop muted autoplay>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const images = ["2.jpg", "1.jpg", "3.jpg"];
+    const captions = [
+      "在遇见那个女孩后，第二天，男孩带了一束花去见了女孩，他希望女孩能明白自己是浪漫的，自己是认真的，自己是愿意将美好带给她的",
+      "男孩偷偷写了封信放在花里，期盼着女孩能发现自己的小惊喜。但好像男孩给女孩花的时候自己忍不住说了出来，女孩仍是非常惊喜开心，男孩心里仿佛也盛开了花朵",
+      "男孩和女孩去看了电影，男孩已经不记得电影在讲什么了，因为他的注意力一直在女孩身上，他喜欢和女孩一起并排坐着，喜欢和女孩一起吃爆米花喝汽水，更喜欢和女孩一起分享快乐"
+    ];
+
+    let current = 0;
+    const imgElement = document.getElementById('slideshow');
+    const captionElement = document.getElementById('caption');
+    const audio = document.getElementById('bgm');
+    const startButton = document.getElementById('start-button');
+    const introText = document.getElementById('intro-text');
+    let intervalId = null;
+
+    function typeWriter(text, element, speed = 80, callback = null) {
+      element.innerText = "";
+      let i = 0;
+      element.style.display = "block";
+      let interval = setInterval(() => {
+        element.innerText += text.charAt(i);
+        i++;
+        if (i >= text.length) {
+          clearInterval(interval);
+          if (callback) callback();
+        }
+      }, speed);
+    }
+
+    function showNext() {
+      imgElement.style.opacity = 0;
+      setTimeout(() => {
+        imgElement.src = images[current];
+        imgElement.style.opacity = 1;
+        typeWriter(captions[current], captionElement);
+        current = (current + 1) % images.length;
+      }, 1000);
+    }
+
+    function startShow() {
+      startButton.classList.add("hidden");
+
+      // Step 1: 显示“这是一个男孩和一个女孩的故事”
+      typeWriter("这是一个男孩和一个女孩的故事", introText, 100, () => {
+        // Step 2: 等待 5 秒再继续
+        setTimeout(() => {
+          introText.style.display = "none";
+          audio.muted = false;
+          audio.play();
+          showNext();
+          intervalId = setInterval(showNext, 10000); // 每张图停留 10 秒
+        }, 5000);
+      });
+    }
+
+    startButton.addEventListener('click', startShow);
+  </script>
+
+</body>
+</html>
