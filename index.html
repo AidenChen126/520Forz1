@@ -357,6 +357,14 @@
     };
 
     startButton.addEventListener('click', () => {
+      const unlockAudio = new Audio();
+      unlockAudio.muted = true;
+      unlockAudio.play().then(() => {
+        audio.currentTime = 0;
+        audio.play();
+      }).catch(err => {
+        console.warn("音频解锁失败", err);
+      });
       startButton.classList.add("hidden");
       typeWriter("这是一个男孩遇见一个女孩的故事", introText, 100, () => {
         setTimeout(() => {
