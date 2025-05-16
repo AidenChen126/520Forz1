@@ -221,7 +221,7 @@
 
   <div id="final-scene" style="display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
     <img id="final-photo" class="final-photo" src="" style="max-height: 80vh; border-radius: 20px; box-shadow: 0 0 20px white; opacity: 0;">
-    <div id="final-caption" style="margin-top: 20px; font-size: 1.5em; color: pink; font-family: 'Comic Sans MS', cursive;">这些时刻，是我最心动的回忆</div>
+    <div id="final-caption" style="margin-top: 20px; font-size: 1.5em; color: pink; font-family: 'Comic Sans MS', cursive;">女孩点击图片，欣赏着男孩最珍惜的回忆</div>
   </div>
 
   <div id="next-button" style="display: none; visibility: hidden;">
@@ -236,7 +236,7 @@
     <div class="final-line" id="finalLine">虽时且短，吾爱永恒</div>
   </div>
 
-  <audio id="bgm" loop>
+  <audio id="bgm" preload="auto" loop>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
@@ -362,7 +362,9 @@
         setTimeout(() => {
           introText.style.display = "none";
           audio.currentTime = 0;
-          audio.play();
+          audio.play().catch((err) => {
+            console.warn("音频播放被拦截:", err);
+          });
           showNext();
           intervalId = setInterval(showNext, 10000);
         }, 5000);
