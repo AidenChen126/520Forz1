@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>520 For You</title>
+  <title>❤</title>
   <style>
     body {
       margin: 0;
@@ -23,6 +23,19 @@
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
+    .album-photo {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      max-width: 60vw;
+      max-height: 90vh;
+      opacity: 0;
+      transition: opacity 1s, transform 0.5s ease;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.4);
+      margin: 0 auto;
+    }
     .caption {
       position: absolute;
       top: 50%;
@@ -39,25 +52,19 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.1);
+      font-size: 4em;
       color: white;
-      font-size: 2em;
-      padding: 20px 40px;
-      border: 2px solid white;
-      border-radius: 10px;
       cursor: pointer;
       z-index: 100;
-      text-align: center;
-      transition: all 0.3s;
+      transition: transform 0.3s ease, color 0.3s ease;
     }
     #start-button:hover {
-      background: rgba(255,255,255,0.2);
-      transform: translate(-50%, -50%) scale(1.05);
+      transform: translate(-50%, -50%) scale(1.2);
+      color: #ffccd5;
     }
-    #start-button.hidden {
+    #start-button.hidden, #album-section, #next-button {
       display: none;
     }
-
     #intro-text {
       position: fixed;
       top: 50%;
@@ -69,27 +76,180 @@
       z-index: 99;
       display: none;
     }
+    #album-section {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .album-controls {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15vw;
+      pointer-events: none;
+      visibility: hidden;
+      z-index: 50;
+    }
+    .arrow {
+      width: 60px;
+      height: auto;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform 0.3s;
+    }
+    .arrow:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.3);
+    }
+    #album-caption {
+      position: absolute;
+      bottom: 10%;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2em;
+    }
+    #next-button {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1em;
+      color: white;
+      cursor: pointer;
+    }
+    #video-caption {
+      display: none;
+      font-size: 2em;
+      color: pink;
+      text-align: center;
+      margin-top: 20px;
+      font-family: 'Comic Sans MS', cursive;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .final-photo {
+      max-width: 60vw;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    /* 新增：结尾动画文字样式 */
+    #ending-text {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: black;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .line {
+      opacity: 0;
+      font-size: 2em;
+      margin: 20px 0;
+      text-align: center;
+      color: white;
+      transition: opacity 2s ease;
+    }
+
+    .line.visible {
+      opacity: 1;
+    }
+
+    .final-line {
+      font-family: "KaiTi", "STKaiti", "FangSong", "SimSun", cursive;
+      font-size: 2.5em;
+      color: white;
+      opacity: 0;
+      transition: opacity 3s ease-in;
+      margin-top: 30px;
+    }
+
+    .final-line.visible {
+      opacity: 1;
+    }
+
+    #ending-photo {
+    max-width: 60vw;
+    max-height: 40vh;
+    opacity: 0;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    transition: opacity 3s ease-in-out;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+#ending-photo.visible {
+  opacity: 1;
+}
+
   </style>
 </head>
 <body>
-
-  <div id="start-button">▶ 520 For You</div>
+  <div id="start-button">🤍</div>
   <div id="intro-text"></div>
-
   <img id="slideshow" class="photo" src="">
   <div class="caption" id="caption"></div>
 
-  <audio id="bgm" loop muted autoplay>
+  <div id="album-section">
+    <div class="album-controls">
+      <img id="left" class="arrow" src="左箭头.png" alt="Left Arrow">
+      <img id="album-photo" class="album-photo" src="">
+      <img id="right" class="arrow" src="右箭头.png" alt="Right Arrow">
+    </div>
+    <div id="album-caption"></div>
+    <div id="video-caption" style="margin-top: 0; position: absolute; bottom: 12%; width: 100%; text-align: center;">嘿咻~嘿咻！！</div>
+  </div>
+
+  <div id="final-scene" style="display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+    <img id="final-photo" class="final-photo" src="" style="max-height: 80vh; border-radius: 20px; box-shadow: 0 0 20px white; opacity: 0;">
+    <div id="final-caption" style="margin-top: 20px; font-size: 1.5em; color: pink; font-family: 'Comic Sans MS', cursive;">这些时刻，是我最心动的回忆</div>
+  </div>
+
+  <div id="next-button" style="display: none; visibility: hidden;">
+    <span style="font-size: 1.5em; filter: brightness(10);">🥚</span> <span>看完点我一下！</span>
+  </div>
+
+  <!-- 新增：结尾文字动画容器 -->
+  <div id="ending-text">
+    <img id="ending-photo" src="结尾.jpg" alt="结尾照片">
+    <div class="line" id="line1">我想.........</div>
+    <div class="line" id="line2">我们的故事，还会继续写下去...❤</div>
+    <div class="final-line" id="finalLine">虽时且短，吾爱永恒</div>
+  </div>
+
+  <audio id="bgm" loop>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    const images = ["2.jpg", "1.jpg", "3.jpg"];
+    const images = ["2.jpg", "1.jpg", "3.jpg", "约会1.jpg"];
     const captions = [
-      "在遇见那个女孩后，第二天，男孩带了一束花去见了女孩，他希望女孩能明白自己是浪漫的，自己是认真的，自己是愿意将美好带给她的",
+      "在遇见那个女孩后，第二天，男孩带了一束花去见了女孩，他希望女孩能明白自己是浪漫的，是认真的，是愿意将美好带给她的",
       "男孩偷偷写了封信放在花里，期盼着女孩能发现自己的小惊喜。但好像男孩给女孩花的时候自己忍不住说了出来，女孩仍是非常惊喜开心，男孩心里仿佛也盛开了花朵",
-      "男孩和女孩去看了电影，男孩已经不记得电影在讲什么了，因为他的注意力一直在女孩身上，他喜欢和女孩一起并排坐着，喜欢和女孩一起吃爆米花喝汽水，更喜欢和女孩一起分享快乐"
+      "男孩和女孩去看了电影，男孩已经不记得电影在讲什么了，因为他的注意力一直在女孩身上，他喜欢和女孩一起并排坐着，喜欢和女孩一起吃爆米花喝汽水，更喜欢和女孩一起分享快乐",
+      "他们在一起后的第一次约会，仿似是上天的安排，那天也是花培里郭金香们盛开的第一天"
     ];
+    const albumPhotos = ["date2.jpg", "date3.jpg", "date4.jpg", "date5.jpg", "date6.jpg", "date7.jpg", "video:过场.mp4"];
+    const finalPhotos = ["拥抱.jpg", "拥抱1.jpg", "拥抱2.jpg", "拥抱3.jpg", "亲吻1.jpg", "合照1.jpg"];
 
     let current = 0;
     const imgElement = document.getElementById('slideshow');
@@ -97,6 +257,16 @@
     const audio = document.getElementById('bgm');
     const startButton = document.getElementById('start-button');
     const introText = document.getElementById('intro-text');
+    const album = document.getElementById('album-section');
+    const albumImg = document.getElementById('album-photo');
+    const albumCaption = document.getElementById('album-caption');
+    const nextButton = document.getElementById('next-button');
+    const albumControls = document.querySelector('.album-controls');
+    const finalScene = document.getElementById('final-scene');
+    const finalPhoto = document.getElementById('final-photo');
+    const finalCaption = document.getElementById('final-caption');
+    const endingText = document.getElementById('ending-text');
+
     let intervalId = null;
 
     function typeWriter(text, element, speed = 80, callback = null) {
@@ -114,33 +284,128 @@
     }
 
     function showNext() {
+      if (current >= images.length) {
+        clearInterval(intervalId);
+        startAlbum();
+        return;
+      }
       imgElement.style.opacity = 0;
       setTimeout(() => {
         imgElement.src = images[current];
         imgElement.style.opacity = 1;
         typeWriter(captions[current], captionElement);
-        current = (current + 1) % images.length;
+        current++;
       }, 1000);
     }
 
-    function startShow() {
-      startButton.classList.add("hidden");
-
-      // Step 1: 显示“这是一个男孩和一个女孩的故事”
-      typeWriter("这是一个男孩和一个女孩的故事", introText, 100, () => {
-        // Step 2: 等待 5 秒再继续
-        setTimeout(() => {
-          introText.style.display = "none";
-          audio.muted = false;
-          audio.play();
-          showNext();
-          intervalId = setInterval(showNext, 10000); // 每张图停留 10 秒
-        }, 5000);
-      });
+    function startAlbum() {
+      imgElement.style.display = 'none';
+      captionElement.style.display = 'none';
+      album.style.display = 'flex';
+      setTimeout(() => {
+        nextButton.style.display = 'flex';
+        nextButton.style.visibility = 'visible';
+        albumControls.style.display = 'flex';
+        albumControls.style.visibility = 'visible';
+      }, 500);
+      showAlbumPhoto(0);
     }
 
-    startButton.addEventListener('click', startShow);
-  </script>
+    let albumIndex = 0;
+    function showAlbumPhoto(index) {
+      albumIndex = index;
+      const isVideo = albumPhotos[index].startsWith("video:");
+      const videoId = 'album-video';
+      let videoElem = document.getElementById(videoId);
+      const videoCaption = document.getElementById('video-caption');
 
+      albumImg.style.display = isVideo ? 'none' : 'block';
+      videoCaption.style.display = isVideo ? 'block' : 'none';
+
+      if (isVideo) {
+        if (!videoElem) {
+          videoElem = document.createElement('video');
+          videoElem.id = videoId;
+          videoElem.className = 'album-photo';
+          videoElem.loop = true;
+          videoElem.autoplay = true;
+          videoElem.muted = false;
+          videoElem.playsInline = true;
+          album.appendChild(videoElem);
+        }
+        videoElem.src = albumPhotos[index].split(":")[1];
+        videoElem.style.opacity = 0;
+        videoElem.style.display = 'block';
+        setTimeout(() => { videoElem.style.opacity = 1; }, 200);
+      } else {
+        if (videoElem) videoElem.style.display = 'none';
+        albumImg.style.opacity = 0;
+        albumImg.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          albumImg.src = albumPhotos[index];
+          albumImg.style.opacity = 1;
+          albumImg.style.transform = 'scale(1)';
+        }, 200);
+      }
+    }
+
+    document.getElementById('left').onclick = () => {
+      if (albumIndex > 0) showAlbumPhoto(albumIndex - 1);
+    };
+    document.getElementById('right').onclick = () => {
+      if (albumIndex < albumPhotos.length - 1) showAlbumPhoto(albumIndex + 1);
+    };
+
+    startButton.addEventListener('click', () => {
+      startButton.classList.add("hidden");
+      typeWriter("这是一个男孩遇见一个女孩的故事", introText, 100, () => {
+        setTimeout(() => {
+          introText.style.display = "none";
+          audio.currentTime = 0;
+          audio.play();
+          showNext();
+          intervalId = setInterval(showNext, 10000);
+        }, 5000);
+      });
+    });
+
+    let finalIndex = 0;
+    nextButton.addEventListener('click', () => {
+      album.style.display = 'none';
+      nextButton.style.display = 'none';
+      finalScene.style.display = 'flex';
+      showFinalPhoto(0);
+    });
+
+    function showFinalPhoto(index) {
+      finalIndex = index;
+      finalPhoto.style.opacity = 0;
+      setTimeout(() => {
+        finalPhoto.src = finalPhotos[index];
+        finalPhoto.style.opacity = 1;
+      }, 300);
+    }
+
+    finalPhoto.addEventListener('click', () => {
+      if (finalIndex < finalPhotos.length - 1) {
+        showFinalPhoto(finalIndex + 1);
+      } else {
+        finalScene.style.display = 'none';
+        endingText.style.display = 'flex';
+        function showLine(id, delay) {
+          setTimeout(() => {
+            document.getElementById(id).classList.add('visible');
+          }, delay);
+        }
+        showLine("line1", 1000);
+        showLine("line2", 4000);
+        showLine("finalLine", 8000);
+
+        setTimeout(() => {
+          document.getElementById('ending-photo').classList.add('visible');
+        }, 8000);
+      }
+    });
+  </script>
 </body>
 </html>
